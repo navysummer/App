@@ -2,6 +2,7 @@
 #include "ui_widget.h"
 
 #include<QDebug>
+#include <curl/curl.h>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -22,29 +23,31 @@ void Widget::on_searchBtn_clicked()
     QString keyword = ui->KeyWord->text();
     QString url = "https://www.baidu.com/s?ie=UTF-8&wd=";
     url.append(keyword);
-    qDebug() << QSslSocket::supportsSsl() << QSslSocket::sslLibraryBuildVersionString() << QSslSocket::sslLibraryVersionString();
 //    qDebug()<<url<<endl;
-    QNetworkRequest request;
-    QNetworkAccessManager* naManager = new QNetworkAccessManager(this);
-    QMetaObject::Connection connRet = QObject::connect(naManager,
-                                                       SIGNAL(finished(QNetworkReply*)),
-                                                       this, SLOT(requestFinished(QNetworkReply*)));
-    Q_ASSERT(connRet);
+    QNetworkAccessManager *manage = new QNetworkAccessManager(this);
+//    connect(manage,SIGNAL(finished(QNetworkReply*)),this,SLOT(requestFinished(QNetworkReply*)));
+//    manage->get(QNetworkRequest(QUrl(url)));
+QEventLoop eventLoop;
+QNetworkReply *reply =  manage->get(QNetworkRequest(QUrl(url)));
+connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
+eventLoop.exec();
+QString  str  = reply->readAll();
+QString  str1  = str.replace("\r","").replace("\n","").replace("\t","");
+qWarning()<<str1<<endl;
+//ui->LOGO->show();
+qWarning()<<str<<endl;
+QLabel *label=new QLabel(str1);
 
-    request.setUrl(QUrl(url));
-    naManager->get(request);
-//    qDebug()<<reply->readAll()<<endl;
+label->show();
+//ui->LOGO->setText(str);
+
 
 }
 void Widget::requestFinished(QNetworkReply* reply)
  {
-    while(true){
-        if(reply->isFinished()){
-            qDebug() << reply->readAll();
-            break;
-        }
-    }
-
+   QString a = "qwer";
+    QByteArray responseByte  = reply->readAll();
+    ui->LOGO->setText(responseByte);
 
 }
 
