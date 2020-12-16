@@ -18,9 +18,13 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+signals:
+     void infoSend(QString name);
+
 private slots:
     void on_searchBtn_clicked();
     void requestFinished(QNetworkReply* reply);
+//    void emit_signal_infosend(QString name);
 
 private:
     Ui::Widget *ui;

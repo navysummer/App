@@ -17,12 +17,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    result.cpp \
     widget.cpp
 
 HEADERS += \
+    result.h \
     widget.h
 
 FORMS += \
+    result.ui \
     widget.ui
 
 # Default rules for deployment.
