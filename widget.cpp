@@ -10,7 +10,7 @@ Widget::Widget(QWidget *parent)
 
     ui->setupUi(this);
     Result *result = new Result();
-    connect(this,SIGNAL(infoSend(QString)),result,SLOT(inforeceive(QString)));
+    connect(this,SIGNAL(infoSend(QString,QStandardItemModel*)),result,SLOT(inforeceive(QString,QStandardItemModel*)));
 }
 
 Widget::~Widget()
@@ -21,8 +21,6 @@ Widget::~Widget()
 
 void Widget::on_searchBtn_clicked()
 {
-    //    qDebug() << QSslSocket::supportsSsl() << QSslSocket::sslLibraryBuildVersionString() << QSslSocket::sslLibraryVersionString();
-    //    qDebug()<<url<<endl;
     QString keyword = ui->KeyWord->text();
     QString url = "https://www.baidu.com/s?ie=utf-8&wd=";
     url.append(keyword);
@@ -37,6 +35,7 @@ void Widget::on_searchBtn_clicked()
     request.setRawHeader("Host","www.baidu.com");
     request.setRawHeader("Connection","keep-alive");
     request.setRawHeader("Upgrade-Insecure-Requests","1");
+    request.setRawHeader("Accept-Encoding","deflate");
     QSslConfiguration config;
     config.setPeerVerifyMode(QSslSocket::VerifyNone);
     config.setProtocol(QSsl::TlsV1_2);
@@ -48,10 +47,26 @@ void Widget::on_searchBtn_clicked()
 }
 void Widget::requestFinished(QNetworkReply* reply)
 {
-      qDebug() << QString(reply->readAll());
-      this->hide();
-       QString keyword = ui->KeyWord->text();
-       emit infoSend(keyword);
+    int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    qWarning() << httpStatus<<endl;
+    qWarning() << reply->readAll();
+    this->hide();
+    QString keyword = ui->KeyWord->text();
+    QStandardItemModel *model = new QStandardItemModel();
+    model->setColumnCount(2);
+    model->setHeaderData(0,Qt::Horizontal,QString("剧集"));
+    model->setHeaderData(1,Qt::Horizontal,QString("url"));
+    for(int i = 0; i < 20; i++)
+    {
+        model->setItem(i,0,new QStandardItem("2009441676"));
+        //设置字符颜色
+        model->item(i,0)->setForeground(QBrush(QColor(255, 0, 0)));
+        //设置字符位置
+        model->item(i,0)->setTextAlignment(Qt::AlignCenter);
+        model->setItem(i,1,new QStandardItem("https://www.baidu.com"));
+    }
+    emit infoSend(keyword,model);
 
 }
+
 

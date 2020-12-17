@@ -5,6 +5,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
+#include<QStandardItemModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -19,12 +20,11 @@ public:
     ~Widget();
 
 signals:
-     void infoSend(QString name);
+     void infoSend(QString,QStandardItemModel*);
 
 private slots:
     void on_searchBtn_clicked();
     void requestFinished(QNetworkReply* reply);
-//    void emit_signal_infosend(QString name);
 
 private:
     Ui::Widget *ui;
