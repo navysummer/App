@@ -1,7 +1,10 @@
 #include "result.h"
 #include "ui_result.h"
-#include "play.h"
+//#include "play.h"
+#include "playlist.h"
 #include<QStandardItemModel>
+#include<QUrl>
+#include<QMessageBox>
 #include<QDebug>
 
 Result::Result(QWidget *parent) :
@@ -9,10 +12,10 @@ Result::Result(QWidget *parent) :
     ui(new Ui::Result)
 {
     ui->setupUi(this);
-    Play *play = new Play();
+    PlayList *playlist = new PlayList();
     connect(ui->tableView, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onTableClicked(const QModelIndex &)));
-    connect(ui->play, SIGNAL(clicked()), this, SLOT(onPlayClicked()));
-    connect(this, SIGNAL(toPlay(QString)), play, SLOT(toPlay(QString)));
+    connect(ui->play, SIGNAL(clicked()), this, SLOT(onPlaylistClicked()));
+    connect(this, SIGNAL(toPlaylist(QString,QString)), playlist, SLOT(toPlaylist(QString,QString)));
 
 }
 
@@ -30,13 +33,27 @@ void Result::inforeceive(QString name,QStandardItemModel *model){
 void Result::onTableClicked(const QModelIndex &index){
     if (index.isValid()) {
         QAbstractItemModel  *Imodel=ui->tableView->model();
-        QModelIndex Iindex = Imodel->index(index.row(),1);
-        QVariant Urltemp=Imodel->data(Iindex);
-         this->video_url=Imodel->data(index).toString();
+        const int row = index.row();
+        QString name = Imodel->data(Imodel->index(row,0)).toString();
+        QString video_url = Imodel->data(Imodel->index(row,1)).toString();
+        this->name = name;
+        this->video_url = video_url;
     }
 }
 
-void Result::onPlayClicked(){
-    this->hide();
-    emit toPlay(this->video_url);
+void Result::onPlaylistClicked(){
+
+    const bool check = QUrl(this->video_url).isValid();
+    qWarning() << check<<endl;
+    if(check){
+        this->hide();
+        emit toPlaylist(this->name, this->video_url);
+    }else{
+        QMessageBox box(QMessageBox::Warning,"警告","未选中剧集或者剧集地址无效");
+        box.setStandardButtons (QMessageBox::Ok|QMessageBox::Cancel);
+        box.setButtonText (QMessageBox::Ok,QString("确 定"));
+        box.setButtonText (QMessageBox::Cancel,QString("取 消"));
+        box.exec ();
+    }
+//
 }

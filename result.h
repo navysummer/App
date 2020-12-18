@@ -16,15 +16,16 @@ public:
     ~Result();
 
 signals:
-    void toPlay(QString);
+    void toPlaylist(QString,QString);
 
 public slots:
     void inforeceive(QString,QStandardItemModel*);
     void onTableClicked(const QModelIndex &);
-    void onPlayClicked();
+    void onPlaylistClicked();
 
 private:
     Ui::Result *ui;
+    QString name;
     QString video_url;
 };
 

@@ -2,6 +2,7 @@
 #include "result.h"
 #include "ui_widget.h"
 #include<QDebug>
+#include<QMessageBox>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -22,6 +23,14 @@ Widget::~Widget()
 void Widget::on_searchBtn_clicked()
 {
     QString keyword = ui->KeyWord->text();
+    if(keyword.isEmpty()){
+         QMessageBox box(QMessageBox::Warning,"警告","输入关键词不允许为空");
+         box.setStandardButtons (QMessageBox::Ok|QMessageBox::Cancel);
+         box.setButtonText (QMessageBox::Ok,QString("确 定"));
+         box.setButtonText (QMessageBox::Cancel,QString("取 消"));
+         box.exec ();
+         return ;
+    }
     QString url = "https://www.baidu.com/s?ie=utf-8&wd=";
     url.append(keyword);
     QNetworkRequest request;
@@ -50,11 +59,11 @@ void Widget::requestFinished(QNetworkReply* reply)
     int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     qWarning() << httpStatus<<endl;
     qWarning() << reply->readAll();
-    this->hide();
+    this->destroy();
     QString keyword = ui->KeyWord->text();
     QStandardItemModel *model = new QStandardItemModel();
     model->setColumnCount(2);
-    model->setHeaderData(0,Qt::Horizontal,QString("剧集"));
+    model->setHeaderData(0,Qt::Horizontal,QString("剧名"));
     model->setHeaderData(1,Qt::Horizontal,QString("url"));
     for(int i = 0; i < 20; i++)
     {

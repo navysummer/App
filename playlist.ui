@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Result</class>
- <widget class="QWidget" name="Result">
+ <class>PlayList</class>
+ <widget class="QWidget" name="PlayList">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>视频搜索结果</string>
+   <string>视频播放列表页</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -21,7 +21,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>搜索关键词</string>
+          <string>影视名称</string>
          </property>
         </widget>
        </item>
@@ -38,22 +38,11 @@
       <widget class="QTableView" name="tableView"/>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="idx">
-         <property name="text">
-          <string>等待选择</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="play">
-         <property name="text">
-          <string>获取视频列表</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="playBtn">
+       <property name="text">
+        <string>点我播放</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

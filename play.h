@@ -15,8 +15,16 @@ public:
     explicit Play(QWidget *parent = nullptr);
     ~Play();
 
+signals:
+    void togToplaylist();
+
 public slots:
     void toPlay(QString);
+
+private slots:
+    void on_toSearch_clicked();
+
+    void on_toPlaylist_clicked();
 
 private:
     Ui::Play *ui;

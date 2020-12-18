@@ -18,16 +18,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     play.cpp \
+    playlist.cpp \
     result.cpp \
     widget.cpp
 
 HEADERS += \
     play.h \
+    playlist.h \
     result.h \
     widget.h
 
 FORMS += \
     play.ui \
+    playlist.ui \
     result.ui \
     widget.ui
 
