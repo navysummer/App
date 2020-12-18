@@ -53,6 +53,7 @@ void PlayList::toPlaylist(QString name,QString video_url){
     }
     ui->tableView->setModel(model);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     this->show();
 }
 

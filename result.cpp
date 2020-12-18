@@ -27,6 +27,7 @@ void Result::inforeceive(QString name,QStandardItemModel *model){
     ui->videoName->setText(name);
     ui->tableView->setModel(model);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     this->show();
 }
 
