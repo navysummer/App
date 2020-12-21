@@ -1,2 +1,7 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/static">
+        <file>favicon.ico</file>
+        <file>logo.gif</file>
+        <file>logo.png</file>
+    </qresource>
+</RCC>

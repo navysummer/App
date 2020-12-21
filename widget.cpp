@@ -11,9 +11,8 @@ Widget::Widget(QWidget *parent)
 {
 
     ui->setupUi(this);
-//    ui->LOGO->setStyleSheet("background-image: url(C:/Users/NAVY/Desktop/work/GUI/App/favicon.ico);");
     QImage img;
-    img.load("C:/Users/NAVY/Desktop/work/GUI/App/logo.jpg");
+    img.load(":/static/logo.png");
     ui->LOGO->setPixmap(QPixmap::fromImage(img));
     Result *result = new Result();
     connect(this,SIGNAL(infoSend(QString,QStandardItemModel*)),result,SLOT(inforeceive(QString,QStandardItemModel*)));
