@@ -1,7 +1,8 @@
 <RCC>
-    <qresource prefix="/static">
-        <file>favicon.ico</file>
-        <file>logo.gif</file>
-        <file>logo.png</file>
+    <qresource prefix="/static"/>
+    <qresource prefix="/">
+        <file>static/favicon.ico</file>
+        <file>static/logo.gif</file>
+        <file>static/logo.png</file>
     </qresource>
 </RCC>
