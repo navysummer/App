@@ -2,6 +2,11 @@
 #define PLAYLIST_H
 
 #include <QWidget>
+#include<QStandardItemModel>
+#include<QDebug>
+#include<QUrl>
+#include<QMessageBox>
+#include "play.h"
 
 namespace Ui {
 class PlayList;
@@ -18,16 +23,17 @@ public:
 signals:
     void toPlay(QString);
 
-public slots:
-    void toPlaylist(QString,QString);
-    void onTableClicked(const QModelIndex &index);
-    void tagToshow();
-
 private slots:
-    void on_playBtn_clicked();
+    void receiveVideos(QString,QStandardItemModel*);
+
+    void on_tableView_clicked(const QModelIndex &index);
+
+    void on_toPlay_clicked();
 
 private:
     Ui::PlayList *ui;
+    Play *play = new Play();
+    QString episode;
     QString video_url;
 };
 

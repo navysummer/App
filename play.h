@@ -2,6 +2,14 @@
 #define PLAY_H
 
 #include <QWidget>
+#include<QDebug>
+#include<QMediaPlaylist>
+#include<QMediaPlayer>
+#include<QVideoWidget>
+#include<QFileDialog>
+#include<QHBoxLayout>
+//#include <QtWebEngineWidgets>
+#include<QWebEngineView>
 
 namespace Ui {
 class Play;
@@ -15,19 +23,17 @@ public:
     explicit Play(QWidget *parent = nullptr);
     ~Play();
 
-signals:
-    void togToplaylist();
 
-public slots:
-    void toPlay(QString);
+protected:
+    void resizeEvent(QResizeEvent *);
 
 private slots:
-    void on_toSearch_clicked();
-
-    void on_toPlaylist_clicked();
+    void playVideo(QString video_url);
 
 private:
     Ui::Play *ui;
+    QString video_url;
+    QWebEngineView* view;
 };
 
 #endif // PLAY_H
