@@ -1,4 +1,4 @@
-QT       += core gui network multimedia multimediawidgets xml
+QT       += core gui network multimedia multimediawidgets xml xmlpatterns
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

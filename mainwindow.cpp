@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QXmlStreamReader>
 #include <QDomDocument>
+#include <QXmlQuery>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -55,15 +56,18 @@ void MainWindow::on_SearchBtn_clicked()
 void MainWindow::requestFinished(QNetworkReply* reply){
     int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     qWarning() << "status="<< httpStatus<<endl;
-//    reply->redirectAllowed();
-    qWarning() << "url="<< reply->url()<<endl;
-    QString res = reply->readAll();
-    QRegExp rxlen("(<div class=\"yl-vd-basis_3H7DH\">(\\S|\\s)*</div>)");
-    int pos = rxlen.indexIn(res);
-    qWarning() << "pos="<< pos <<endl;
-    if(pos!=-1){
-        QString value = rxlen.cap(1); // "189"
-        qWarning() << "value="<< value<<endl;
+    if(httpStatus==200){
+        QXmlQuery query(QXmlQuery::XPath20);
+        QString res = reply->readAll();
+        query.setFocus(res);
+        query.setQuery("div[@class='yl-vd-basis_3H7DH']");
+        if(query.isValid()){
+            QString sOptionSettings;
+            query.evaluateTo(&sOptionSettings);
+            qWarning() << sOptionSettings<<endl;
+        }else{
+            qWarning() << "query is not valid"<<endl;
+        }
     }
     this->hide();
     QString keyword = ui->KeyWord->text();
