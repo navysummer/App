@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QXmlStreamReader>
+#include <QDomDocument>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -33,7 +35,7 @@ void MainWindow::on_SearchBtn_clicked()
         box.exec ();
     }else{
         url.append(keyword);
-//        qWarning() << url<<endl;
+        qWarning() << "url="<<url<<endl;
         QNetworkAccessManager* naManager = new QNetworkAccessManager(this);
         connect(naManager,
                 SIGNAL(finished(QNetworkReply*)),
@@ -51,8 +53,18 @@ void MainWindow::on_SearchBtn_clicked()
 }
 
 void MainWindow::requestFinished(QNetworkReply* reply){
-//    int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-//    qWarning() << httpStatus<<endl;
+    int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    qWarning() << "status="<< httpStatus<<endl;
+//    reply->redirectAllowed();
+    qWarning() << "url="<< reply->url()<<endl;
+    QString res = reply->readAll();
+    QRegExp rxlen("(<div class=\"yl-vd-basis_3H7DH\">(\\S|\\s)*</div>)");
+    int pos = rxlen.indexIn(res);
+    qWarning() << "pos="<< pos <<endl;
+    if(pos!=-1){
+        QString value = rxlen.cap(1); // "189"
+        qWarning() << "value="<< value<<endl;
+    }
     this->hide();
     QString keyword = ui->KeyWord->text();
     QStandardItemModel *model = new QStandardItemModel();

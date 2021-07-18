@@ -6,9 +6,6 @@ Play::Play(QWidget *parent) :
     ui(new Ui::Play)
 {
     ui->setupUi(this);
-    view = new QWebEngineView(this);
-    view->load(QUrl("http://www.baidu.com/"));
-    view->show();
 
 }
 
@@ -24,5 +21,4 @@ void Play::playVideo(QString video_url){
 
 void Play::resizeEvent(QResizeEvent *)
 {
-    view->resize(this->size());
 }

@@ -8,9 +8,6 @@
 #include<QVideoWidget>
 #include<QFileDialog>
 #include<QHBoxLayout>
-//#include <QtWebEngineWidgets>
-#include<QWebEngineView>
-
 namespace Ui {
 class Play;
 }
@@ -33,7 +30,6 @@ private slots:
 private:
     Ui::Play *ui;
     QString video_url;
-    QWebEngineView* view;
 };
 
 #endif // PLAY_H

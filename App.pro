@@ -1,4 +1,4 @@
-QT       += core gui network multimedia multimediawidgets webenginewidgets
+QT       += core gui network multimedia multimediawidgets xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
