@@ -53,20 +53,32 @@ void MainWindow::on_SearchBtn_clicked()
     }
 }
 
+
 void MainWindow::requestFinished(QNetworkReply* reply){
     int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     qWarning() << "status="<< httpStatus<<endl;
-    if(httpStatus==200){
-        QXmlQuery query(QXmlQuery::XPath20);
+    if(httpStatus==200 || httpStatus==302){
+        QXmlQuery query;
         QString res = reply->readAll();
-        query.setFocus(res);
-        query.setQuery("div[@class='yl-vd-basis_3H7DH']");
-        if(query.isValid()){
-            QString sOptionSettings;
-            query.evaluateTo(&sOptionSettings);
-            qWarning() << sOptionSettings<<endl;
-        }else{
-            qWarning() << "query is not valid"<<endl;
+//        qWarning() << "doc="<< res<<endl;
+        res = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>hello world</title></head><body></body></html>";
+        QDomDocument doc;
+        doc.setContent(res);
+//        qWarning()<<"nodeName="<<doc.nodeName();
+        qWarning() << "doc="<< doc.toString()<<endl;
+//        doc.elementsByTagNameNS()
+        QDomNodeList nl = doc.elementsByTagName("title");
+        int num = nl.count();
+        if(num>0){
+            for (int i=0; i<num; i++) {
+                QDomElement element = nl.at(i).toElement();
+                QString node_name = element.nodeName();
+                if(node_name=="a"){
+                    qWarning() <<"i="<<i<< ",node_name="<< element.nodeName()<< ",node_value="<<element.text()<<endl;
+                }else {
+                    qWarning() <<"i="<<i<< "node_name="<< element.nodeName()<< ",node_value="<<element.text()<<endl;
+                }
+            }
         }
     }
     this->hide();

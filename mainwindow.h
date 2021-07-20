@@ -10,6 +10,7 @@
 #include <QNetworkReply>
 #include <QStandardItemModel>
 #include "result.h"
+#include <QDomDocument>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
